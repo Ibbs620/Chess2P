@@ -1,7 +1,7 @@
 var board;
 var playerBlack;
 var playerWhite; 
-var turn = Player.BLACK;
+var turn = Player.WHITE;
 var pieceSelected = false;
 var selectedPiece;
 
@@ -25,13 +25,18 @@ function mouseClicked(){
         if(board.boardColor[clicked.y][clicked.x] == '.'){
             board.updateBoard(selectedPiece, [clicked.x, clicked.y]);
             selectedPiece.move([clicked.x, clicked.y]);
-            pieceSelected = false;
+            pieceSelected = false;   
+            background(50,100,100);
+            board.drawBoard();
+            board.drawPieces();
             if(turn == Player.BLACK) turn = Player.WHITE;
             else turn = Player.BLACK;
+            alert(board.boardColor);
         } else if(board.boardColor[clicked.y][clicked.x] == turn){
             pieceSelected = false;
         }
     }
+
     if(!pieceSelected){
         if(board.boardState[clicked.y][clicked.x] != '.' && board.boardColor[clicked.y][clicked.x] == turn){
             selectedPiece = board.pieceMap[[clicked.x, clicked.y]];

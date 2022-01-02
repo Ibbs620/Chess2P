@@ -1,9 +1,23 @@
 class Board {
 
-    static defaultBoardState = ['RNBQKBNR','PPPPPPPP','........','........','........','........','pppppppp','rnbqkbnr'];
-    static defaultBoardColor = ['bbbbbbbb','bbbbbbbb','........','........','........','........','wwwwwwww','wwwwwwww'];
+    static defaultBoardState = [['R','N','B','Q','K','B','N','R'],
+                                ['P','P','P','P','P','P','P','P'],
+                                ['.','.','.','.','.','.','.','.'],
+                                ['.','.','.','.','.','.','.','.'],
+                                ['.','.','.','.','.','.','.','.'],
+                                ['.','.','.','.','.','.','.','.'],
+                                ['p','p','p','p','p','p','p','p'],
+                                ['r','n','b','q','k','b','n','r']];
+    static defaultBoardColor = [['b','b','b','b','b','b','b','b'],
+                                ['b','b','b','b','b','b','b','b'],
+                                ['.','.','.','.','.','.','.','.'],
+                                ['.','.','.','.','.','.','.','.'],
+                                ['.','.','.','.','.','.','.','.'],
+                                ['.','.','.','.','.','.','.','.'],
+                                ['w','w','w','w','w','w','w','w'],
+                                ['w','w','w','w','w','w','w','w']];
 
-    constructor(playerWhite, playerBlack, boardState = ['RNBQKBNR','PPPPPPPP','........','........','........','........','pppppppp','rnbqkbnr'], boardColor = ['bbbbbbbb','bbbbbbbb','........','........','........','........','wwwwwwww','wwwwwwww']){
+    constructor(playerWhite, playerBlack, boardState = [['R','N','B','Q','K','B','N','R'],['P','P','P','P','P','P','P','P'],['.','.','.','.','.','.','.','.'],['.','.','.','.','.','.','.','.'],['.','.','.','.','.','.','.','.'],['.','.','.','.','.','.','.','.'],['p','p','p','p','p','p','p','p'],['r','n','b','q','k','b','n','r']], boardColor = [['b','b','b','b','b','b','b','b'],['b','b','b','b','b','b','b','b'],['.','.','.','.','.','.','.','.'],['.','.','.','.','.','.','.','.'],['.','.','.','.','.','.','.','.'],['.','.','.','.','.','.','.','.'],['w','w','w','w','w','w','w','w'],['w','w','w','w','w','w','w','w']]){
         this.boardState = boardState;
         this.playerWhite = playerWhite;
         this.playerBlack = playerBlack;
@@ -60,8 +74,8 @@ class Board {
         this.boardColor[piece.y][piece.x] = '.';
         this.boardState[newPosition[1]][newPosition[0]] = piece.id;
         this.boardColor[newPosition[1]][newPosition[0]] = piece.color;
-        if(pieceMap[newPosition] != undefined){
-            pieceMap[newPosition].alive = false;
+        if(this.pieceMap[newPosition] != undefined){
+            this.pieceMap[newPosition].alive = false;
         }
     }
 }

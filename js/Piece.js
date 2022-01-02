@@ -24,19 +24,18 @@ class Piece{
                 break;
             case 'p':
                 var direction = 1;
-                if(this.color == Player.WHITE) direction *= -1
+                if(this.color == Player.WHITE) direction *= -1;
                 var y = this.y + 2 * direction;
-                if(this.y == 3.5 - 2.5 * direction && b.boardColor[y][this.x] == '.') this.moves.push([this.x, y]) ;
+                if(this.y == 3.5 - 2.5 * direction && b.boardColor[y][this.x] == '.') this.moves.push([this.x, y]);
                 y = this.y + 1 * direction;
                 if(b.boardColor[y][this.x] == '.') this.moves.push([this.x, y]);
-                else {
-                    if(this.x + 1  < 8){
-                        if(b.boardColor[y][this.x + 1] != this.color) this.moves.push([this.x + 1,y]);
-                    }
-                    if(this.x - 1  >= 0){
-                        if(b.boardColor[y][this.x - 1] != this.color) this.moves.push([this.x - 1,y]);
-                    }
+                if(this.x + 1  < 8){
+                    if(b.boardColor[y][this.x + 1] != this.color && b.boardColor[y][this.x - 1] != '.') this.moves.push([this.x + 1,y]);
                 }
+                if(this.x - 1  >= 0){
+                    if(b.boardColor[y][this.x - 1] != this.color && b.boardColor[y][this.x - 1] != '.') this.moves.push([this.x - 1,y]);
+                }
+                break;
         }
     }
 
@@ -51,6 +50,6 @@ class Piece{
 
     move(position){
         this.x = position[0];
-        this.x = position[1];
+        this.y = position[1];
     }
 }
