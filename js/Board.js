@@ -77,5 +77,11 @@ class Board {
         if(this.pieceMap[newPosition] != undefined){
             this.pieceMap[newPosition].alive = false;
         }
+        this.pieceMap[[piece.x, piece.y]] = undefined;
+        this.pieceMap[newPosition] = piece;
+    }
+
+    inCheck(player){
+        
     }
 }

@@ -22,19 +22,20 @@ function draw(){
 function mouseClicked(){
     clicked = {x: Math.floor(mouseX / 50), y: Math.floor(mouseY / 50)};
     if(pieceSelected){
-        if(board.boardColor[clicked.y][clicked.x] == '.'){
+        if(selectedPiece.validMove([clicked.x, clicked.y])){
             board.updateBoard(selectedPiece, [clicked.x, clicked.y]);
-            selectedPiece.move([clicked.x, clicked.y]);
-            pieceSelected = false;   
+            selectedPiece.move([clicked.x, clicked.y]);  
             background(50,100,100);
             board.drawBoard();
             board.drawPieces();
             if(turn == Player.BLACK) turn = Player.WHITE;
             else turn = Player.BLACK;
-            alert(board.boardColor);
-        } else if(board.boardColor[clicked.y][clicked.x] == turn){
-            pieceSelected = false;
+            console.log(board.boardColor);
         }
+        background(50,100,100);
+        board.drawBoard();
+        board.drawPieces();
+        pieceSelected = false;
     }
 
     if(!pieceSelected){
@@ -42,10 +43,14 @@ function mouseClicked(){
             selectedPiece = board.pieceMap[[clicked.x, clicked.y]];
             selectedPiece.findMoves(board);
             background(50,100,100);
+            playerBlack.updateAttackZone(board);
+            playerWhite.updateAttackZone(board);
+            playerWhite.showAttackZone();
+            playerBlack.showAttackZone();
             board.drawBoard();
             board.drawPieces();
-            selectedPiece.drawMoves();
-            pieceSelected = true;
+            selectedPiece.drawMoves(board);
+            pieceSelected = true; 
         }
     }
 }
