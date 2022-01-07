@@ -15,10 +15,6 @@ function setup(){
     board.drawPieces();
 }
 
-function draw(){
-    
-}
-
 function mouseClicked(){
     clicked = {x: Math.floor(mouseX / 50), y: Math.floor(mouseY / 50)};
     if(pieceSelected){
@@ -30,7 +26,6 @@ function mouseClicked(){
             board.drawPieces();
             if(turn == Player.BLACK) turn = Player.WHITE;
             else turn = Player.BLACK;
-            console.log(board.boardColor);
         }
         background(50,100,100);
         board.drawBoard();
@@ -39,18 +34,21 @@ function mouseClicked(){
     }
 
     if(!pieceSelected){
+        playerWhite.findMoves(board);
+        playerBlack.findMoves(board);
         if(board.boardState[clicked.y][clicked.x] != '.' && board.boardColor[clicked.y][clicked.x] == turn){
             selectedPiece = board.pieceMap[[clicked.x, clicked.y]];
-            selectedPiece.findMoves(board);
-            background(50,100,100);
             playerBlack.updateAttackZone(board);
             playerWhite.updateAttackZone(board);
+            background(50,100,100);
+            board.drawBoard();
             playerWhite.showAttackZone();
             playerBlack.showAttackZone();
-            board.drawBoard();
             board.drawPieces();
+            selectedPiece.removeIllegal(board);
             selectedPiece.drawMoves(board);
             pieceSelected = true; 
         }
     }
+
 }

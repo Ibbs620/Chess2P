@@ -31,6 +31,10 @@ class Board {
         }
     }
 
+    clone(){
+        return new Board(this.playerWhite, this.playerBlack, this.boardState, this.boardColor);
+    }
+
     drawBoard(){
         var y = true;
         noStroke();
@@ -81,7 +85,14 @@ class Board {
         this.pieceMap[newPosition] = piece;
     }
 
-    inCheck(player){
-        
+    inCheck(color){
+        if(color == Player.BLACK){
+            var king = this.playerBlack.pieces[4];
+            var dangerZone = this.playerWhite.attackZone;
+        } else {
+            var king = this.playerWhite.pieces[4];
+            var dangerZone = this.playerBlack.attackZone;
+        }
+        return dangerZone[king.y][king.x];
     }
 }

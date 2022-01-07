@@ -9,6 +9,7 @@ class Piece{
         this.y = y;
         this.moves = [];
         this.alive = true;
+        this.moved = false;
     }
 
     findMoves(b){
@@ -16,12 +17,15 @@ class Piece{
         switch(this.id.toLowerCase()){
             case 'k':
                 var direction = [1,-1,0,0,1,-1,1,-1,-1,1,-1,1,0,0];
+                var newBoard = Object.assign(Object.create(Object.getPrototypeOf(board)),JSON.parse(JSON.stringify(board)));
+                if(this.color == 'b') var dangerZone = board.playerWhite.getAttackZone(newBoard);
+                else var dangerZone = board.playerBlack.getAttackZone(newBoard);
                 for(var i = 0; i < 8; i++){
                     var x = this.x + direction[i];
                     var y = this.y + direction[13 - i];
                     if(x < 0 || x > 7 || y < 0 || y > 7) continue;
                     if(b.boardColor[y][x] == this.color) continue;
-                    this.moves.push([x,y]);
+                    if(!dangerZone[y][x]) this.moves.push([x,y]);
                 }
                 break;
             case 'p':
@@ -108,8 +112,20 @@ class Piece{
                     }
                 }
                 break;
-        } 
-        console.log(this.moves);
+        }
+        this.removeIllegal(b);
+    }
+
+    removeIllegal(b){
+        var i = 0;
+        var king = this.id.toLowerCase() == 'k';
+        while(i < this.moves.length){
+            if(!this.checkLegal(b, this.moves[i]) * !king){
+                this.moves.splice(i,1);
+                i--;
+            }
+            i++;
+        }
     }
 
     drawMoves(b){
@@ -131,6 +147,19 @@ class Piece{
     move(position){
         this.x = position[0];
         this.y = position[1];
+    }
+
+    checkLegal(board, position){
+        var newBoard = Object.assign(Object.create(Object.getPrototypeOf(board)),JSON.parse(JSON.stringify(board)));
+        newBoard.updateBoard(this, position);
+        if(this.color == 'b') {
+            var dangerZone = board.playerWhite.getAttackZone(newBoard);
+            var king = newBoard.playerBlack.pieces[4];
+        } else {
+            var dangerZone = board.playerBlack.getAttackZone(newBoard);
+            var king = newBoard.playerWhite.pieces[4];
+        }
+        return !dangerZone[king.y][king.x];
     }
 
     validMove(position){
