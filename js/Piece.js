@@ -17,7 +17,7 @@ class Piece{
         switch(this.id.toLowerCase()){
             case 'k':
                 var direction = [1,-1,0,0,1,-1,1,-1,-1,1,-1,1,0,0];
-                var newBoard = Object.assign(Object.create(Object.getPrototypeOf(board)),JSON.parse(JSON.stringify(board)));
+                var newBoard = Object.assign(Object.create(Object.getPrototypeOf(b)),JSON.parse(JSON.stringify(b)));
                 if(this.color == 'b') var dangerZone = board.playerWhite.getAttackZone(newBoard);
                 else var dangerZone = board.playerBlack.getAttackZone(newBoard);
                 for(var i = 0; i < 8; i++){
@@ -32,14 +32,16 @@ class Piece{
                 var direction = 1;
                 if(this.color == Player.WHITE) direction *= -1;
                 var y = this.y + 2 * direction;
-                if(this.y == 3.5 - 2.5 * direction && b.boardColor[y][this.x] == '.') this.moves.push([this.x, y]);
+                if(!this.moved && b.boardColor[y][this.x] == '.') this.moves.push([this.x, y]);
                 y = this.y + 1 * direction;
-                if(b.boardColor[y][this.x] == '.') this.moves.push([this.x, y]);
-                if(this.x + 1  < 8){
-                    if(b.boardColor[y][this.x + 1] != this.color && b.boardColor[y][this.x + 1] != '.') this.moves.push([this.x + 1,y]);
-                }
-                if(this.x - 1  >= 0){
-                    if(b.boardColor[y][this.x - 1] != this.color && b.boardColor[y][this.x - 1] != '.') this.moves.push([this.x - 1,y]);
+                if(y >= 0 && y <= 7){
+                    if(b.boardColor[y][this.x] == '.') this.moves.push([this.x, y]);
+                    if(this.x + 1  < 8){
+                        if(b.boardColor[y][this.x + 1] != this.color && b.boardColor[y][this.x + 1] != '.') this.moves.push([this.x + 1,y]);
+                    }
+                    if(this.x - 1  >= 0){
+                        if(b.boardColor[y][this.x - 1] != this.color && b.boardColor[y][this.x - 1] != '.') this.moves.push([this.x - 1,y]);
+                    }
                 }
                 break;
             case 'n':
@@ -147,6 +149,7 @@ class Piece{
     move(position){
         this.x = position[0];
         this.y = position[1];
+        this.moved = true;
     }
 
     checkLegal(board, position){
