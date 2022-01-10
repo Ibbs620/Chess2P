@@ -32,7 +32,7 @@ class Piece{
                 var direction = 1;
                 if(this.color == Player.WHITE) direction *= -1;
                 var y = this.y + 2 * direction;
-                if(!this.moved && b.boardColor[y][this.x] == '.') this.moves.push([this.x, y]);
+                if(!this.moved && b.boardColor[y][this.x] == '.' && b.boardColor[y-1 * direction][this.x]) this.moves.push([this.x, y]);
                 y = this.y + 1 * direction;
                 if(y >= 0 && y <= 7){
                     if(b.boardColor[y][this.x] == '.') this.moves.push([this.x, y]);
