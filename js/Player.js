@@ -6,6 +6,7 @@ class Player{
     constructor(color){
         this.color = color;
         this.pieces = [];
+        this.alive = {};
         this.attackZone =  [[false,false,false,false,false,false,false,false],
                             [false,false,false,false,false,false,false,false],
                             [false,false,false,false,false,false,false,false],
@@ -20,6 +21,7 @@ class Player{
                 if(color == 'b') var piece = new Piece(Board.defaultBoardState[i][j], this.color, j, i);
                 else var piece = new Piece(Board.defaultBoardState[7-i][j], this.color, j, 7-i);
                 this.pieces.push(piece);
+                if(this.alive[piece.id] == undefined) this.alive[piece.id] = 0;
             }
         }
         this.moves = 20;
