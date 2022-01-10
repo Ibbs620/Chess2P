@@ -4,6 +4,7 @@ var playerWhite;
 var turn = Player.WHITE;
 var pieceSelected = false;
 var selectedPiece;
+var alive = {};
 
 function setup(){
     createCanvas(600,400);
@@ -16,6 +17,14 @@ function setup(){
     drawMenu('white to move');
     reset = createButton('Reset Board');
     reset.mousePressed(resetBoard);
+    for(var i = 0; i < 8; i++){
+        for(var j = 0; j < 8; j++){
+            if(board.boardState[i][j] != '.'){
+                if(alive[board.boardState[i][j]] == undefined) alive[board.boardState[i][j]] = 0;
+                alive[board.boardState[i][j]] += 1;
+            }
+        }
+    }
 }
 
 function draw(){
@@ -183,7 +192,7 @@ function checkMate(){
                 stroke(0);
                 strokeWeight(1);
                 textSize(30);
-                text("Draw", 440, 340);
+                text("Draw", 460, 340);
                 
                 textSize(15);
                 text("By Stalemate", 455, 370);
@@ -207,21 +216,45 @@ function checkMate(){
                 stroke(0);
                 strokeWeight(1);
                 textSize(30);
-                text("Draw", 440, 340);
+                text("Draw", 460, 340);
                 
                 textSize(15);
                 text("By Stalemate", 455, 370);
             }
         }
     }
-    var alive = {};
+    
+    for(const [key, value] of Object.entries(alive)){
+        alive[key] = 0;
+    }
+
     for(var i = 0; i < 8; i++){
         for(var j = 0; j < 8; j++){
             if(board.boardState[i][j] != '.'){
-                if(alive[board.boardState[i][j]] == undefined) alive[board.boardState[i][j]] = 0;
                 alive[board.boardState[i][j]] += 1;
             }
         }
+    }
+
+    if((alive['p'] == 0 && alive['r'] == 0 && alive['b'] == 0 && alive['q'] == 0 && alive['n'] == 0 &&
+        alive['P'] == 0 && alive['R'] == 0 && alive['B'] == 0 && alive['Q'] == 0 && alive['N'] == 0 )||
+       (alive['p'] == 0 && alive['r'] == 0 && alive['b'] == 0 && alive['q'] == 0 && alive['n'] == 0 &&
+        alive['P'] == 0 && alive['R'] == 0 && alive['B'] == 0 && alive['Q'] == 0 && alive['N'] == 1) ||
+       (alive['p'] == 0 && alive['r'] == 0 && alive['b'] == 0 && alive['q'] == 0 && alive['n'] == 1 &&
+        alive['P'] == 0 && alive['R'] == 0 && alive['B'] == 0 && alive['Q'] == 0 && alive['N'] == 0) ||
+       (alive['p'] == 0 && alive['r'] == 0 && alive['b'] == 0 && alive['q'] == 0 && alive['n'] == 0 &&
+        alive['P'] == 0 && alive['R'] == 0 && alive['B'] == 1 && alive['Q'] == 0 && alive['N'] == 0) ||
+       (alive['p'] == 0 && alive['r'] == 0 && alive['b'] == 0 && alive['q'] == 0 && alive['n'] == 0  &&
+        alive['P'] == 0 && alive['R'] == 0 && alive['B'] == 1 && alive['Q'] == 0 && alive['N'] == 0)){
+        rect(400, 300, 200, 100);
+        fill(255);
+        stroke(0);
+        strokeWeight(1);
+        textSize(30);
+        text("Draw", 460, 340);
+        
+        textSize(15);
+        text("By Insufficient Material", 425, 370);
     }
 }
 
