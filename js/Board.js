@@ -68,7 +68,11 @@ class Board {
             if(piece.alive){
                 fill(255);
                 stroke(0);
-                text(Piece.pieceUnicode[piece.id.toUpperCase()], piece.x * 50 + 5, piece.y * 50 + 40);            
+                if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {  
+                    text(Piece.pieceUnicode[piece.id], piece.x * 50 + 5, piece.y * 50 + 40);  
+                } else {
+                    text(Piece.pieceUnicode[piece.id.toUpperCase()], piece.x * 50 + 5, piece.y * 50 + 40);            
+                }
             }
         }
     }
