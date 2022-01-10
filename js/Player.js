@@ -182,30 +182,49 @@ class Player{
     canCastle(direction, board){
         var king = this.pieces[4];
         var nBoard = Object.assign(Object.create(Object.getPrototypeOf(board)),JSON.parse(JSON.stringify(board)));
-        if(king.moved || nBoard.inCheck(this.color)) return false;
-        if(this.color == 'b') {
-            var row = 0;
-        } else {
+        if(king.moved || board.inCheck(this.color)) return false;
+        if(this.color == 'w') {
             var row = 7;
+            var dangerZone = board.playerBlack.getAttackZone(nBoard);
+        } else {
+            var row = 0;
+            var dangerZone = board.playerWhite.getAttackZone(nBoard);
         }
         if(direction == 'r') {
-            var rook = this.pieces[0];
+            var rook = this.pieces[7];
             if(rook.moved) return false;
             if(board.boardState[row][5] == '.' && board.boardState[row][6] == '.'){
-                var nBoard = Object.assign(Object.create(Object.getPrototypeOf(board)),JSON.parse(JSON.stringify(board)));
-                var dangerZone = board.playerWhite.getAttackZone(nBoard);
                 return !(dangerZone[row][5] || dangerZone[row][6]);
             }
         }
         else {
-            var rook = this.pieces[7];
+            var rook = this.pieces[0];
             if(rook.moved) return false;
             if(board.boardState[row][1] == '.' && board.boardState[row][2] == '.' && board.boardState[row][3] == '.'){
-                var nBoard = Object.assign(Object.create(Object.getPrototypeOf(board)),JSON.parse(JSON.stringify(board)));
-                var dangerZone = board.playerWhite.getAttackZone(nBoard);
                 return !(dangerZone[row][2] || dangerZone[row][3]);
             }
         }
         return false;
+    }
+    castleLeft(board){
+        var king = this.pieces[4];
+        var rook = this.pieces[0];
+        if(this.color == 'b') var row = 0;
+        else var row = 7;
+        board.updateBoard(king, [2, row]);
+        board.updateBoard(rook, [3, row]);
+        king.move([2, row]);
+        rook.move([3, row]);
+    }
+
+    castleRight(board){
+        var king = this.pieces[4];
+        var rook = this.pieces[7];
+        if(this.color == 'b') var row = 0;
+        else var row = 7;
+        board.updateBoard(king, [6, row]);
+        board.updateBoard(rook, [5, row]);
+        king.move([6, row]);
+        rook.move([5, row]);
     }
 }

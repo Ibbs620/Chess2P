@@ -78,7 +78,7 @@ class Board {
         this.boardColor[piece.y][piece.x] = '.';
         this.boardState[newPosition[1]][newPosition[0]] = piece.id;
         this.boardColor[newPosition[1]][newPosition[0]] = piece.color;
-        if(this.pieceMap[newPosition] != undefined){
+        if(this.pieceMap[newPosition] != undefined && this.pieceMap[newPosition] != piece){
             this.pieceMap[newPosition].alive = false;
         }
         this.pieceMap[[piece.x, piece.y]] = undefined;
