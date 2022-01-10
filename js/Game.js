@@ -217,7 +217,10 @@ function checkMate(){
     var alive = {};
     for(var i = 0; i < 8; i++){
         for(var j = 0; j < 8; j++){
-            
+            if(board.boardState[i][j] != '.'){
+                if(alive[board.boardState[i][j]] == undefined) alive[board.boardState[i][j]] = 0;
+                alive[board.boardState[i][j]] += 1;
+            }
         }
     }
 }
