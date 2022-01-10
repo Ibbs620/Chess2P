@@ -251,7 +251,7 @@ function drawMenu(status){
             x1++;
             if(x1 > 7) {
                 y1 = 150;
-                x2 = 0;
+                x1 = 0;
             }
         }
         piece = this.playerWhite.pieces[i];
